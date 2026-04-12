@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyrics Search</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="home-shell">
+    <!-- Main hero section for the landing page -->
+    <section class="hero">
+        <div class="logo-wrap">
+            <div class="logo-icon">♪</div>
+            <h1 class="brand">Lyrics Search</h1>
+        </div>
+        <p class="tagline">
+            Search for song titles, artists, or lyrics
+        </p>
+        <!-- Keeping the form simple so backend routing stays untouched -->
+        <form method="get" action="/" class="search-form">
+            <div class="search-bar">
+                <input
+                        type="text"
+                        name="q"
+                        th:value="${q}"
+                        placeholder="Search for song titles, artists, or lyrics..."
+                        autocomplete="off">
+                <button type="submit">Search</button>
+            </div>
+        </form>
+        <p class="error" th:if="${error}" th:text="${error}"></p>
+    </section>
+    <section class="results-section" th:if="${results != null}">
+        <div class="results-header">
+            <h2>Results</h2>
+            <p th:if="${q != null and !q.isBlank()}">
+                Showing matches for <span class="query-text" th:text="${q}"></span>
+            </p>
+        </div>
+        <div class="results-list" th:if="${!#lists.isEmpty(results)}">
+            <article class="result-card" th:each="r : ${results}">
+                <h3 class="result-title">
+                    <a th:href="@{'/song/' + ${r.id}}" th:text="${r.title}"></a>
+                </h3>
+                <p class="meta">
+                    <span><strong>Rank:</strong> <span th:text="${r.rank}"></span></span>
+                    <span class="dot">•</span>
+                    <span><strong>Year:</strong> <span th:text="${r.year}"></span></span>
+                    <span class="dot">•</span>
+                    <span><strong>Artist:</strong> <span th:text="${r.artist}"></span></span>
+                </p>
+                <p class="snippet" th:if="${r.snippet != null and !r.snippet.isBlank()}" 
+th:utext="${r.snippet}"></p>
+            </article>
+        </div>
+        <div class="empty-state" th:if="${#lists.isEmpty(results)}">
+            <p>No results found. Try another title, artist, or lyric phrase.</p>
+        </div>
+    </section>
+    <footer class="footer">
+        <p>About | Terms of Service | Privacy Policy | © 2026 Lyrics Search</p>
+    </footer>
+</div>
+</body>
+</html>

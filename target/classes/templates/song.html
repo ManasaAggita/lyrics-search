@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} ?: 'Song'">Song</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="song-shell">
+    <div class="song-page-card">
+        <a href="/" class="back-link">← Back to search</a>
+        <p class="error" th:if="${error}" th:text="${error}"></p>
+        <div th:if="${title != null}">
+            <h1 class="song-title" th:text="${title}"></h1>
+            <p class="meta song-meta">
+                <span><strong>Rank:</strong> <span th:text="${rank}"></span></span>
+                <span class="dot">•</span>
+                <span><strong>Year:</strong> <span th:text="${year}"></span></span>
+                <span class="dot">•</span>
+                <span><strong>Artist:</strong> <span th:text="${artist}"></span></span>
+            </p>
+            <!-- pre-wrap keeps the original lyrics formatting readable -->
+            <pre class="lyrics" th:text="${lyrics}"></pre>
+        </div>
+    </div>
+</div>
+</body>
+</html>
